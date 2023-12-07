@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.ISuggDao" >
+  <resultMap id="BaseResultMap" type="com.example.demo.pojo.Sugg" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="text" property="text" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="reply" property="reply" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, logo, text, time, reply, status, openid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sugg
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectSugg" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from sugg
+  </select>
+  
+    <select id="selectSuggByOpenid" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from sugg where openid= #{openid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sugg
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.pojo.Sugg" >
+    insert into sugg (id, name, logo, 
+      text, time, reply, 
+      status, openid)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
+      #{text,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, #{reply,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.pojo.Sugg" >
+    insert into sugg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="text != null" >
+        text,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="reply != null" >
+        reply,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null" >
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="reply != null" >
+        #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.pojo.Sugg" >
+    update sugg
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null" >
+        text = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="reply != null" >
+        reply = #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.pojo.Sugg" >
+    update sugg
+    set name = #{name,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      text = #{text,jdbcType=VARCHAR},
+      time = #{time,jdbcType=VARCHAR},
+      reply = #{reply,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      openid = #{openid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

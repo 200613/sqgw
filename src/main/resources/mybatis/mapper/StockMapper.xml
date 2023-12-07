@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.StockMapper">
+	<resultMap id="BaseResultMap" type="com.example.demo.pojo.Stock">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="ifc" property="ifc" jdbcType="VARCHAR" />
+		<result column="pid" property="pid" jdbcType="INTEGER" />
+		<result column="pname" property="pname" jdbcType="VARCHAR" />
+		<result column="num" property="num" jdbcType="INTEGER" />
+		<result column="time" property="time" jdbcType="VARCHAR" />
+		<result column="gid" property="gid" jdbcType="INTEGER" />
+		<result column="gname" property="gname" jdbcType="VARCHAR" />
+		<result column="sid" property="sid" jdbcType="INTEGER" />
+		<result column="sname" property="sname" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, ifc, pid, pname, num, time,gid,gname,sid,sname
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from stock
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectStock" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from stock
+	</select>
+	<select id="selectStockByPid" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from stock
+		where pid = #{pid,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectStockByPidTime" resultMap="BaseResultMap"
+			parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from stock
+		where pid = #{pid,jdbcType=INTEGER} and YEARWEEK(date_format(time,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
+	</select>
+
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from stock
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.example.demo.pojo.Stock">
+		insert into stock (id, ifc, pid,
+		pname, num, time)
+		values (#{id,jdbcType=INTEGER}, #{ifc,jdbcType=VARCHAR},
+		#{pid,jdbcType=INTEGER},
+		#{pname,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.example.demo.pojo.Stock">
+		insert into stock
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="ifc != null">
+				ifc,
+			</if>
+			<if test="pid != null">
+				pid,
+			</if>
+			<if test="pname != null">
+				pname,
+			</if>
+			<if test="num != null">
+				num,
+			</if>
+			<if test="time != null">
+				time,
+			</if>
+			<if test="gid != null">
+				gid,
+			</if>
+			<if test="gname != null">
+				gname,
+			</if>
+			<if test="sid != null">
+				sid,
+			</if>
+			<if test="sname != null">
+				sname,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="ifc != null">
+				#{ifc,jdbcType=VARCHAR},
+			</if>
+			<if test="pid != null">
+				#{pid,jdbcType=INTEGER},
+			</if>
+			<if test="pname != null">
+				#{pname,jdbcType=VARCHAR},
+			</if>
+			<if test="num != null">
+				#{num,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				#{time,jdbcType=VARCHAR},
+			</if>
+			<if test="gid != null">
+				#{gid,jdbcType=INTEGER},
+			</if>
+			<if test="gname != null">
+				#{gname,jdbcType=VARCHAR},
+			</if>
+			<if test="sid != null">
+				#{sid,jdbcType=INTEGER},
+			</if>
+			<if test="sname != null">
+				#{sname,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.example.demo.pojo.Stock">
+		update stock
+		<set>
+			<if test="ifc != null">
+				ifc = #{ifc,jdbcType=VARCHAR},
+			</if>
+			<if test="pid != null">
+				pid = #{pid,jdbcType=INTEGER},
+			</if>
+			<if test="pname != null">
+				pname = #{pname,jdbcType=VARCHAR},
+			</if>
+			<if test="num != null">
+				num = #{num,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				time = #{time,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.example.demo.pojo.Stock">
+		update stock
+		set ifc = #{ifc,jdbcType=VARCHAR},
+		pid = #{pid,jdbcType=INTEGER},
+		pname = #{pname,jdbcType=VARCHAR},
+		num = #{num,jdbcType=INTEGER},
+		time = #{time,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

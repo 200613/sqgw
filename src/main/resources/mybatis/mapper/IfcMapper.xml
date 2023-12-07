@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.IIfcDao" >
+    <resultMap id="BaseResultMap" type="com.example.demo.pojo.Ifc" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="txt" property="txt" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, txt
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from ifc
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectIfc" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from ifc
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from ifc
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.example.demo.pojo.Ifc" >
+        insert into ifc (id, txt)
+        values (#{id,jdbcType=INTEGER}, #{txt,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.pojo.Ifc" >
+        insert into ifc
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="txt != null" >
+                txt,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="txt != null" >
+                #{txt,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.pojo.Ifc" >
+        update ifc
+        <set >
+            <if test="txt != null" >
+                txt = #{txt,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.demo.pojo.Ifc" >
+        update ifc
+        set txt = #{txt,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

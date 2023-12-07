@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.ICformDao">
+    <resultMap id="BaseResultMap"
+               type="com.example.demo.pojo.Cform">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="form_name" property="form_name"
+                jdbcType="VARCHAR" />
+        <result column="order_id" property="order_id"
+                jdbcType="VARCHAR" />
+        <result column="form_count" property="form_count"
+                jdbcType="INTEGER" />
+        <result column="form_unitprice" property="form_unitprice"
+                jdbcType="VARCHAR" />
+        <result column="form_logo" property="form_logo"
+                jdbcType="VARCHAR" />
+        <result column="form_goodid" property="form_goodid"
+                jdbcType="INTEGER" />
+
+
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, form_name,order_id, form_count, form_unitprice,form_goodid,form_logo
+    </sql>
+
+    <select id="selectByorderid" resultMap="BaseResultMap" parameterType="com.example.demo.pojo.Cform" >
+        select
+        <include refid="Base_Column_List" />
+        from cform
+        where order_id = #{order_id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByCformid" resultMap="BaseResultMap" parameterType="com.example.demo.pojo.Cform" >
+        select
+        <include refid="Base_Column_List" />
+        from cform
+        where order_id = #{order_id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteRepeatCform"
+            parameterType="java.lang.String">
+        delete from cform where id not in (select minid from (select min(id) as minid from cform group by order_id,form_name ) b)
+    </delete>
+
+    <select id="selectallCform" resultMap="BaseResultMap"
+            parameterType="com.example.demo.pojo.Cform">
+        SELECT * FROM `cform`
+    </select>
+
+    <select id="selectByPrimaryKeyGood" resultMap="BaseResultMap"
+            parameterType="com.example.demo.pojo.Cform">
+        select * from cform where form_goodid = #{form_goodid,jdbcType=INTEGER}
+    </select>
+
+
+    <select id="selectByGoodNum" resultMap="BaseResultMap"
+            parameterType="com.example.demo.pojo.Cform">
+        select * from cform where form_goodid = #{form_goodid,jdbcType=INTEGER} and order_id=#{order_id,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.pojo.Cform">
+        insert into `cform` (form_name,order_id, form_count, form_unitprice,form_goodid,form_logo)
+        values (#{form_name,jdbcType=VARCHAR},
+                #{order_id,jdbcType=VARCHAR},
+                #{form_count,jdbcType=INTEGER},
+                #{form_unitprice,jdbcType=VARCHAR},
+                #{form_goodid,jdbcType=INTEGER},
+                #{form_logo,jdbcType=VARCHAR})
+    </insert>
+
+
+
+</mapper>

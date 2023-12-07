@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.IUserDao">
+	<resultMap id="BaseResultMap"
+		type="com.example.demo.pojo.User">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		
+		<result column="user_name" property="user_name"
+			jdbcType="VARCHAR" />
+		
+		<result column="user_password" property="user_password"
+			jdbcType="VARCHAR" />
+		<result column="user_gender" property="user_gender"
+			jdbcType="INTEGER" />
+		<result column="user_age" property="user_age"
+			jdbcType="INTEGER" />
+		
+		<result column="user_email" property="user_email"
+			jdbcType="VARCHAR" />
+		<result column="user_tel" property="user_tel"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+    id, user_name, user_password,user_gender,user_age,user_email,user_tel
+  </sql>
+
+	<select id="selectAllUser" resultMap="BaseResultMap"
+		parameterType="com.example.demo.pojo.User">
+		select * from user
+	</select>
+	
+	
+	<select id="selectUserById" resultMap="BaseResultMap"
+		parameterType="com.example.demo.pojo.User">
+		select * from user where id=#{0}
+	</select>
+	
+	<select id="selectCheckLogin" resultMap="BaseResultMap"
+		parameterType="com.example.demo.pojo.User">
+		select * from user where  user_name=#{user_name,jdbcType=VARCHAR} and  user_password=#{user_password,jdbcType=VARCHAR}
+	</select>
+	
+	
+		<select id="selectAllUserByName" resultMap="BaseResultMap"
+		parameterType="com.example.demo.pojo.User">
+		select * from user
+		
+		 <where>
+        <!-- 动态拼接sql查询条件 -->
+            <if test="user_name != null and user_name != ''">
+                user_name=#{user_name,jdbcType=VARCHAR}
+            </if>
+        </where>
+
+	</select>
+	
+	<insert id="inserUser" parameterType="com.example.demo.pojo.User">
+		insert into `user` (user_name, user_password,user_gender,user_age,user_email,user_tel)
+		values (#{user_name,jdbcType=VARCHAR},
+		#{user_password,jdbcType=VARCHAR},
+		#{user_gender,jdbcType=INTEGER},
+		#{user_age,jdbcType=INTEGER},
+		#{user_email,jdbcType=VARCHAR},
+		#{user_tel,jdbcType=VARCHAR})
+	</insert>
+	
+	 <delete id="deleteUser" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ 
+  <update id="updateUser"
+		parameterType="com.example.demo.pojo.User">
+		update user
+		set user_name = #{user_name,jdbcType=VARCHAR},
+		 user_password = #{user_password,jdbcType=VARCHAR},
+		 user_gender = #{user_gender,jdbcType=VARCHAR},
+		  user_age = #{user_age,jdbcType=VARCHAR},
+		 user_email = #{user_email,jdbcType=VARCHAR},
+		  user_tel = #{user_tel,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+ 
+
+</mapper>

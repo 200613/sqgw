@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.IGoodsDao">
+    <resultMap id="BaseResultMap"
+               type="com.example.demo.pojo.Goods">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="ifc" property="ifc" jdbcType="VARCHAR" />
+        <result column="fname" property="fname" jdbcType="VARCHAR" />
+        <result column="flogo" property="flogo" jdbcType="VARCHAR" />
+        <result column="fprice" property="fprice" jdbcType="VARCHAR" />
+        <result column="fsales" property="fsales" jdbcType="INTEGER" />
+        <result column="fcount" property="fcount" jdbcType="INTEGER" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="psale" property="psale" jdbcType="INTEGER" />
+        <result column="stock" property="stock" jdbcType="INTEGER" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="netcontent" property="netcontent" jdbcType="VARCHAR" />
+        <result column="sid" property="sid" jdbcType="INTEGER" />
+        <result column="sname" property="sname" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,ifc,fname,flogo,fprice,fsales,fcount,status,psale,stock,address,netcontent,sid,sname,remark
+    </sql>
+
+    <select id="selectGoodsBygoodid" resultMap="BaseResultMap"
+            parameterType="com.example.demo.pojo.Goods">
+        select
+        <include refid="Base_Column_List" />
+        from goods
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectGoodsBySid" resultMap="BaseResultMap"
+            parameterType="com.example.demo.pojo.Goods">
+        select
+        <include refid="Base_Column_List" />
+        from goods
+        where sid = #{sid,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectGoodsByFsales" resultMap="BaseResultMap"
+            parameterType="com.example.demo.pojo.Goods">
+        select
+        <include refid="Base_Column_List" />
+        from goods where status=0 order by fsales desc
+    </select>
+
+
+    <select id="selectGoodsById" resultMap="BaseResultMap"
+            parameterType="com.example.demo.pojo.Goods">
+        select
+        <include refid="Base_Column_List" />
+        from goods
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+
+    <select id="selectGoodsByfname" resultMap="BaseResultMap"
+            parameterType="com.example.demo.pojo.Goods">
+        select
+        <include refid="Base_Column_List" />
+        from goods
+        where fname like CONCAT('%',#{fname}, '%')
+    </select>
+
+    <select id="selectAllGoods" resultMap="BaseResultMap"
+            parameterType="com.example.demo.pojo.Goods">
+        select
+        <include refid="Base_Column_List" />
+        from goods
+    </select>
+
+
+    <select id="selectGoodsByifc" resultMap="BaseResultMap"
+            parameterType="com.example.demo.pojo.Goods">
+        select
+        <include refid="Base_Column_List" />
+        from goods
+        where ifc = #{ifc,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectAllGoodsByBid" resultMap="BaseResultMap"
+            parameterType="com.example.demo.pojo.Goods">
+        select * from goods where ifc=#{ifc,jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="selectAllGoodsByifc" resultMap="BaseResultMap"
+            parameterType="com.example.demo.pojo.Goods">
+        select * from goods where foodifc=#{foodifc,jdbcType=VARCHAR}
+    </select>
+
+
+    <insert id="insertGoods"
+            parameterType="com.example.demo.pojo.Goods">
+        insert into goods ( ifc,fname,flogo,fprice,stock,address,netcontent,sid,sname,remark)
+        values (
+                   #{ifc,jdbcType=VARCHAR},
+                   #{fname,jdbcType=VARCHAR},
+                   #{flogo,jdbcType=VARCHAR},
+                   #{fprice,jdbcType=VARCHAR},
+                   #{stock,jdbcType=INTEGER},
+                   #{address,jdbcType=VARCHAR},
+                   #{netcontent,jdbcType=VARCHAR},
+                   #{sid,jdbcType=INTEGER},
+                   #{sname,jdbcType=VARCHAR},
+                   #{remark,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateGoodsById"
+            parameterType="com.example.demo.pojo.Goods">
+        update goods
+        set ifc=#{ifc,jdbcType=VARCHAR},
+            fname=#{fname,jdbcType=VARCHAR},
+            fprice=#{fprice,jdbcType=VARCHAR},
+            address=#{address,jdbcType=VARCHAR},
+            netcontent=#{netcontent,jdbcType=VARCHAR},
+            stock=#{stock,jdbcType=INTEGER},
+            remark=#{remark,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateGoods"
+            parameterType="com.example.demo.pojo.Goods">
+        update goods
+        set fsales = #{fsales,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.pojo.Goods" >
+        update goods
+        <set >
+            <if test="fname != null" >
+                fname = #{fname,jdbcType=VARCHAR},
+            </if>
+            <if test="fprice != null" >
+                fprice = #{fprice,jdbcType=DOUBLE},
+            </if>
+            <if test="ifc != null" >
+                ifc = #{ifc,jdbcType=VARCHAR},
+            </if>
+            <if test="fsales != null" >
+                fsales = #{fsales,jdbcType=INTEGER},
+            </if>
+            <if test="fcount != null" >
+                fcount = #{fcount,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="psale != null" >
+                psale = #{psale,jdbcType=INTEGER},
+            </if>
+            <if test="stock != null" >
+                stock = #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="flogo != null" >
+                flogo = #{flogo,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="address != null" >
+                address = #{address,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="netcontent != null" >
+                netcontent = #{netcontent,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateGoodsByStatus"
+            parameterType="com.example.demo.pojo.Goods">
+        update goods
+        set status = #{status,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteByPrimaryKey"
+            parameterType="java.lang.Integer">
+        delete from goods
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+</mapper>

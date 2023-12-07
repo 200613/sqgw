@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.ICommentDao">
+	<resultMap id="BaseResultMap"
+		type="com.example.demo.pojo.Comment">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<id column="comment_bid" property="comment_bid" jdbcType="INTEGER" />
+		<result column="comment_name" property="comment_name"
+			jdbcType="VARCHAR" />
+		<result column="comment_logo" property="comment_logo"
+			jdbcType="VARCHAR" />
+		<result column="comment_time" property="comment_time"
+			jdbcType="VARCHAR" />
+		<result column="comment_openid" property="comment_openid"
+			jdbcType="VARCHAR" />
+		<result column="comment_reply" property="comment_reply"
+			jdbcType="VARCHAR" />
+		<result column="comment_text" property="comment_text"
+			jdbcType="VARCHAR" />
+		<result column="comment_status" property="comment_status"
+			jdbcType="INTEGER" />
+		
+		<result column="comment_orderid" property="comment_orderid"
+			jdbcType="VARCHAR" />
+		<result column="sid" property="sid"
+				jdbcType="INTEGER" />
+
+		<result column="sname" property="sname"
+				jdbcType="VARCHAR" />
+	
+	</resultMap>
+
+
+	<select id="selectAllComment" resultMap="BaseResultMap"
+		parameterType="com.example.demo.pojo.Comment">
+		select * from comment ORDER BY id DESC
+	</select>
+	
+	<select id="selectAllCommentStatus" resultMap="BaseResultMap"
+		parameterType="com.example.demo.pojo.Comment">
+		select * from comment where comment_status=#{comment_status,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectCommentById" resultMap="BaseResultMap"
+			parameterType="com.example.demo.pojo.Comment">
+		select * from comment where id=#{id,jdbcType=INTEGER}
+	</select>
+
+
+	<select id="selectCommentBusiness" resultMap="BaseResultMap"
+		parameterType="com.example.demo.pojo.Comment">
+		select * from comment where comment_bid=#{comment_bid,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectCommentBusinessBybid" resultMap="BaseResultMap"
+		parameterType="com.example.demo.pojo.Comment">
+		select * from comment where comment_bid=#{comment_bid,jdbcType=VARCHAR} and comment_status=0
+	</select>
+	
+	
+	<select id="selectComment" resultMap="BaseResultMap"
+		parameterType="com.example.demo.pojo.Comment">
+		select * from comment
+		
+		 <where>
+        <!-- 动态拼接sql查询条件 -->
+            <if test="comment_shopname != null and comment_shopname != ''">
+                comment_shopname=#{comment_shopname,jdbcType=VARCHAR}
+            </if>
+            <if test="comment_name != null and comment_name != ''">
+                and comment_name=#{comment_name,jdbcType=VARCHAR}
+            </if>
+             <if test="comment_goodpart != null and comment_goodpart != ''">
+                and comment_goodpart=#{comment_goodpart,jdbcType=VARCHAR}
+            </if>
+        </where>
+
+	</select>
+	
+	<select id="selectMaxComment" resultMap="BaseResultMap"
+		parameterType="com.example.demo.pojo.Comment">
+		SELECT * FROM comment ORDER BY id DESC LIMIT 0,1
+	</select>
+	
+
+	<insert id="insert" parameterType="com.example.demo.pojo.Comment">
+		insert into comment( comment_name,comment_logo,comment_time,comment_openid,
+		comment_text,comment_status,comment_orderid,comment_bid,sid,sname)
+		values (
+		#{comment_name,jdbcType=VARCHAR},
+		#{comment_logo,jdbcType=VARCHAR},
+		#{comment_time,jdbcType=VARCHAR},
+		#{comment_openid,jdbcType=VARCHAR},
+		#{comment_text,jdbcType=VARCHAR},
+		#{comment_status,jdbcType=INTEGER},
+		#{comment_orderid,jdbcType=VARCHAR},
+		#{comment_bid,jdbcType=INTEGER},
+		#{sid,jdbcType=INTEGER},
+		#{sname,jdbcType=VARCHAR}
+	
+		)
+	</insert>
+	
+	 <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <update id="updateIsComment"
+		parameterType="com.example.demo.pojo.Comment">
+		update comment
+		set comment_reply = #{comment_reply,jdbcType=VARCHAR},
+		 comment_status = #{comment_status,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>
